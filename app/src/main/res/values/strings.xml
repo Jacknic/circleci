@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">CircleCI</string>
+    <string name="hello_ci">Hello CI!</string>
+</resources>
