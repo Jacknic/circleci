@@ -1,3 +1,4 @@
+// gradle转kts参考 https://github.com/gradle/kotlin-dsl/tree/master/samples/hello-android
 buildscript {
     repositories {
         google()
