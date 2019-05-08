@@ -1,5 +1,11 @@
 # 参考官网 https://circleci.com/docs/2.0/language-android/#sample-configuration
 version: 2
+
+# 引用变量
+references:
+  cache_key: &cache_key
+    # key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
+    key: jars-{{ checksum "build.gradle.kts" }}
 jobs:
   build:
     working_directory: ~/code
@@ -10,7 +16,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
+          <<: *cache_key
       - run:
           name: 修改权限配置
           command: sudo chmod +x ./gradlew
@@ -18,9 +24,9 @@ jobs:
           name: 下载依赖
           command: ./gradlew androidDependencies
       - save_cache:
+          <<: *cache_key
           paths:
             - ~/.gradle
-          key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
       - run:
           name: 运行测试
           command: ./gradlew lint test

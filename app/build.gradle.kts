@@ -19,11 +19,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    // release签名配置
     signingConfigs.register("release", {
         // 需要配置环境变量windows下 set KEY_PASSWORD=password;*nix KEY_PASSWORD=password
         // gradlew.bat assembleRelease
         val pwd = System.getenv("KEY_PASSWORD")
-        // 简便操作这里设置成相同的密码，一下属性均可以配置成环境变量或jvm属性
+        // 简便操作这里设置成相同的密码，以下属性均可以配置成环境变量或jvm属性
         keyAlias = "key"
         keyPassword = pwd
         storePassword = pwd
