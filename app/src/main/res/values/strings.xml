@@ -1,4 +1,5 @@
 <resources>
-    <string name="app_name">CircleCI</string>
+    <string name="app_name" translatable="false">CircleCI</string>
     <string name="hello_ci">Hello CI!</string>
+    <string name="version_format">version: %s</string>
 </resources>

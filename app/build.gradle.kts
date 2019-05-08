@@ -16,12 +16,14 @@ android {
         versionCode = 1
         // 语义化版本 2.0.0 | Semantic Versioning  https://semver.org/lang/zh-CN/
         versionName = "0.1.0"
+        // 定义输出apk文件名
+        setProperty("archivesBaseName", "$applicationId-v$versionName")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     // release签名配置
     signingConfigs.register("release", {
-        // 需要配置环境变量windows下 set KEY_PASSWORD=password;*nix KEY_PASSWORD=password
+        // 需要配置环境变量windows下 set KEY_PASSWORD=123456;*nix KEY_PASSWORD=123456
         // gradlew.bat assembleRelease
         val pwd = System.getenv("KEY_PASSWORD")
         // 简便操作这里设置成相同的密码，以下属性均可以配置成环境变量或jvm属性
