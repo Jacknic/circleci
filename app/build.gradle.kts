@@ -21,6 +21,11 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    packagingOptions {
+        exclude("kotlin/**")
+        exclude("META-INF/**")
+    }
+
     // release签名配置
     signingConfigs.register("release", {
         // 需要配置环境变量windows下 set KEY_PASSWORD=123456;*nix KEY_PASSWORD=123456
