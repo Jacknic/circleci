@@ -35,3 +35,9 @@ jobs:
       - store_artifacts:
           path: app/build/outputs/apk/debug
           destination: debug
+      - run:
+          name: 运行编译(release)
+          command: ./gradlew assembleRelease
+      - store_artifacts:
+          path: app/build/outputs/apk/release
+          destination: release

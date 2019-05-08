@@ -6,6 +6,7 @@ plugins {
     kotlin("android.extensions")
 }
 
+// Android Plugin DSL Reference  https://google.github.io/android-gradle-dsl/current/
 android {
     compileSdkVersion(28)
     defaultConfig {
@@ -13,13 +14,27 @@ android {
         minSdkVersion(19)
         targetSdkVersion(28)
         versionCode = 1
-        versionName = "1.0"
+        // 语义化版本 2.0.0 | Semantic Versioning  https://semver.org/lang/zh-CN/
+        versionName = "0.1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    signingConfigs.register("release", {
+        // 需要配置环境变量windows下 set KEY_PASSWORD=password;*nix KEY_PASSWORD=password
+        // gradlew.bat assembleRelease
+        val pwd = System.getenv("KEY_PASSWORD")
+        // 简便操作这里设置成相同的密码，一下属性均可以配置成环境变量或jvm属性
+        keyAlias = "key"
+        keyPassword = pwd
+        storePassword = pwd
+        storeFile = File(project.rootDir, "keystore.jks")
+    })
+
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs["release"]
         }
     }
 }
