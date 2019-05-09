@@ -45,6 +45,9 @@ jobs:
           name: 安装so依赖
           command: sudo apt-get install pulseaudio
       - run:
+          name: 安装kvm依赖
+          command: sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils ia32-libs-multiarch
+      - run:
           name: 启动模拟器
           command: |
             cd ${ANDROID_HOME}/emulator;ls
