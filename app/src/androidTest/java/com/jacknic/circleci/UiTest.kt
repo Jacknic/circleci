@@ -30,7 +30,7 @@ class UiTest {
      */
     @Test
     fun testClick() {
-        val context = InstrumentationRegistry.getInstrumentation().context
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
         val ok = context.getString(android.R.string.ok)
         onView(withId(R.id.tvHello)).perform(click())
                 .check(matches(withText(ok)))

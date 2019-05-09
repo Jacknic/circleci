@@ -30,6 +30,32 @@ jobs:
       - run:
           name: 运行测试
           command: ./gradlew lint test
+      - run:
+          name: Lists installed targets
+          command: android list target
+          environment:
+          TERM: dumb
+      - run:
+          name: 显示system-images镜像列表
+          command: sdkmanager --list --verbose | grep system-images
+      - run:
+          name: 创建模拟器
+          command: sdkmanager "system-images;android-28;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-28;default;armeabi-v7a"
+      - run:
+          name: 启动模拟器
+          command: |
+            cd ${ANDROID_HOME}/emulator;ls
+            export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
+            emulator -avd test -no-window -noaudio -no-boot-anim -no-window -accel on
+          background: true
+      - run:
+          name: 等待模拟器启动
+          command: |
+            circle-android wait-for-boot
+            adb shell input keyevent 82
+      - run:
+          name: 运行Espresso UI测试
+          command: ./gradlew :app:connectedDebugAndroidTest
       - store_artifacts:
           path: app/build/reports
           destination: reports
