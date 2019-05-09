@@ -46,7 +46,7 @@ jobs:
           command: sudo apt-get install pulseaudio
       - run:
           name: 安装kvm依赖
-          command: sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils ia32-libs-multiarch
+          command: sudo apt-get install qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils libguestfs-tools genisoimage virtinst libosinfo-bin
       - run:
           name: 启动模拟器
           command: |
