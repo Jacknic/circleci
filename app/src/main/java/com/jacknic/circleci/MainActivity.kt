@@ -11,5 +11,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         val versionName = getString(R.string.version_format, BuildConfig.VERSION_NAME)
         tvHello.append(versionName)
+        tvHello.setOnClickListener {
+            tvHello.setText(android.R.string.ok)
+        }
     }
 }
