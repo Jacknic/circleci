@@ -35,7 +35,7 @@ jobs:
           command: sdkmanager --list --verbose | grep system-images
       - run:
           name: 创建模拟器
-          command: sdkmanager "system-images;android-24;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
+          command: echo "yes" | sdkmanager "system-images;android-24;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
       - run:
           name: 启动模拟器
           command: |
