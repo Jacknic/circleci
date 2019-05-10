@@ -31,6 +31,9 @@ jobs:
           name: 运行测试
           command: ./gradlew lint test
       - run:
+          name: 安装so依赖
+          command: sudo apt-get install pulseaudio
+      - run:
           name: 显示system-images镜像列表
           command: sdkmanager --list --verbose | grep system-images
       - run:
