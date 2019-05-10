@@ -10,7 +10,7 @@ jobs:
   build:
     working_directory: ~/code
     docker:
-      - image: circleci/android:api-28-node
+      - image: circleci/android:api-28-alpha
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
@@ -31,28 +31,17 @@ jobs:
           name: 运行测试
           command: ./gradlew lint test
       - run:
-          name: Lists installed targets
-          command: android list target
-          environment:
-          TERM: dumb
-      - run:
           name: 显示system-images镜像列表
           command: sdkmanager --list --verbose | grep system-images
       - run:
           name: 创建模拟器
           command: sdkmanager "system-images;android-28;default;x86_64" && echo "no" | avdmanager create avd -n test -k "system-images;android-28;default;x86_64"
       - run:
-          name: 安装so依赖
-          command: sudo apt-get install pulseaudio
-      - run:
-          name: 安装kvm依赖
-          command: sudo apt-get install qemu-kvm libvirt-clients libvirt-daemon-system bridge-utils libguestfs-tools genisoimage virtinst libosinfo-bin
-      - run:
           name: 启动模拟器
           command: |
             cd ${ANDROID_HOME}/emulator;ls
             export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib
-            sudo emulator -avd test -no-window -noaudio -no-boot-anim -no-window -accel on
+            emulator -avd test -no-window -noaudio -no-boot-anim -no-window -accel on
           background: true
       - run:
           name: 等待模拟器启动
