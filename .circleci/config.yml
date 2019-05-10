@@ -30,6 +30,9 @@ jobs:
       - run:
           name: 运行测试
           command: ./gradlew lint test
+      # 参考How to run Android UI tests properly on CircleCI 2.0? - Stack Overflow
+      # https://stackoverflow.com/questions/45424110/how-to-run-android-ui-tests-properly-on-circleci-2-0
+      # 注意事项：system-images不要选x86或x64的，这需要kvm；选择arm时，启动时要关闭GPU。
       - run:
           name: 显示system-images镜像列表
           command: sdkmanager --list --verbose | grep system-images

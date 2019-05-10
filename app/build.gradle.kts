@@ -15,7 +15,7 @@ android {
         targetSdkVersion(28)
         versionCode = 1
         // 语义化版本 2.0.0 | Semantic Versioning  https://semver.org/lang/zh-CN/
-        versionName = "0.1.1"
+        versionName = "0.1.2"
         // 定义输出apk文件名
         setProperty("archivesBaseName", "$applicationId-v$versionName")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
