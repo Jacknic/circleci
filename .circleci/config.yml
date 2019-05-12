@@ -84,10 +84,18 @@ jobs:
             circle-android wait-for-boot
             adb shell input keyevent 82
       - run:
+        name: 录制屏幕
+        command: adb shell screenrecord /sdcard/test.mp4
+        background: true
+      - run:
           name: 运行Espresso UI测试
           command: ./gradlew :app:connectedDebugAndroidTest
+      - run:
+          name: 保存录制视频
+          command: kill all adb && adb pull /sdcard/test.mp4 app/build/reports/test.mp4
       - store_artifacts:
           path: app/build/reports
+          destination: reports
   assemble:
     working_directory: ~/code
     docker:
