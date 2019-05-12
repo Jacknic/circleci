@@ -32,9 +32,6 @@ jobs:
       - store_artifacts:
           path: app/build/reports
           destination: reports
-      - store_artifacts:
-          path: app/build/reports
-          destination: reports
       - run:
           name: 运行编译(debug)
           command: ./gradlew assembleDebug
