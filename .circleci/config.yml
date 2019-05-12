@@ -7,7 +7,7 @@ references:
     # key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
     key: jars-{{ checksum "build.gradle.kts" }}
   cache_key_image: &cache_key_image
-    key: image-{{ checksum "build.gradle.kts" }}
+    key: images-{{ checksum "build.gradle.kts" }}
 jobs:
   build:
     working_directory: ~/code
