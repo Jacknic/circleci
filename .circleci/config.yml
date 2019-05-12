@@ -7,8 +7,6 @@ references:
   cache_key_jars: &cache_key_jars
     # key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
     key: jars-{{ checksum "build.gradle.kts" }}
-  cache_key_image: &cache_key_image
-    key: image-android-24-arm-v7a
 jobs:
   build:
     working_directory: ~/code
@@ -28,82 +26,15 @@ jobs:
           <<: *cache_key_jars
           paths:
             - ~/.gradle
-      - save_cache:
-          key: code-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - ~/code
-
-  unit_test:
-    working_directory: ~/code
-    docker:
-      - image: circleci/android:api-28-alpha
-    steps:
-      - restore_cache:
-          key: code-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          <<: *cache_key_jars
       - run:
           name: 运行单元测试
           command: ./gradlew test
       - store_artifacts:
           path: app/build/reports
-  ui_test:
-    working_directory: ~/code
-    docker:
-      - image: circleci/android:api-28-alpha
-      # 参考How to run Android UI tests properly on CircleCI 2.0? - Stack Overflow
-      # https://stackoverflow.com/questions/45424110/how-to-run-android-ui-tests-properly-on-circleci-2-0
-      # 注意事项：system-images不要选x86或x64的，这需要kvm；选择arm时，启动时要关闭GPU。
-    steps:
-      - restore_cache:
-          key: code-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          <<: *cache_key_jars
-      - restore_cache:
-          <<: *cache_key_image
-      - run:
-          name: 显示SDK列表信息
-          command: sdkmanager --list --verbose
-      - run:
-          name: 下载镜像文件
-          command: echo "yes" | sdkmanager "system-images;android-24;default;armeabi-v7a"
-      - save_cache:
-          <<: *cache_key_image
-          paths:
-            - /opt/android/sdk/system-images
-      - run:
-          name: 创建模拟器
-          command: echo "no" | avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"  -d "Nexus 5X"
-      - run:
-          name: 启动模拟器
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose -gpu off
-          background: true
-      - run:
-          name: 等待模拟器启动
-          command: |
-            circle-android wait-for-boot
-            adb shell input keyevent 82
-      - run:
-          name: 运行Espresso UI测试
-          command: ./gradlew :app:connectedDebugAndroidTest
-      - run:
-          name: 截取屏幕
-          command: adb shell screencap -p /sdcard/screenshot.png
-      - run:
-          name: 保存截屏
-          command: adb pull /sdcard/screenshot.png app/build/reports/screenshot.png
+          destination: reports
       - store_artifacts:
           path: app/build/reports
           destination: reports
-  assemble:
-    working_directory: ~/code
-    docker:
-      - image: circleci/android:api-28-alpha
-    steps:
-      - restore_cache:
-          key: code-{{ .Environment.CIRCLE_SHA1 }}
-      - restore_cache:
-          <<: *cache_key_jars
       - run:
           name: 运行编译(debug)
           command: ./gradlew assembleDebug
@@ -113,19 +44,5 @@ jobs:
       - store_artifacts:
           path: app/build/outputs/apk
           destination: apk
-
-workflows:
-  version: 2
-  "CI构建流程":
-    jobs:
-      - build
-      - unit_test:
-          requires:
-            - build
-      - ui_test:
-          requires:
-            - build
-      - assemble:
-          requires:
-            - unit_test
-            - ui_test
+      - store_test_results:
+          path: app/build/test-results
