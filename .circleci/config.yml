@@ -46,13 +46,13 @@ jobs:
       - save_cache:
           <<: *cache_key_image
           paths:
-            - ${ANDROID_HOME}/system-images
+            - $ANDROID_HOME/system-images
       - run:
           name: 创建模拟器
-          command: echo "no" | avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
+          command: echo "no" | avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"  -d "Nexus 5X"
       - run:
           name: 启动模拟器
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose -gpu off -skin pixel_3_xl
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose -gpu off
           background: true
       - run:
           name: 等待模拟器启动
