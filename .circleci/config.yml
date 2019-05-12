@@ -84,9 +84,9 @@ jobs:
             circle-android wait-for-boot
             adb shell input keyevent 82
       - run:
-        name: 录制屏幕
-        command: adb shell screenrecord /sdcard/test.mp4
-        background: true
+          name: 录制屏幕
+          command: adb shell screenrecord /sdcard/test.mp4
+          background: true
       - run:
           name: 运行Espresso UI测试
           command: ./gradlew :app:connectedDebugAndroidTest
