@@ -59,6 +59,8 @@ jobs:
           key: code-{{ .Environment.CIRCLE_SHA1 }}
       - restore_cache:
           <<: *cache_key_jars
+      - restore_cache:
+          <<: *cache_key_image
       - run:
           name: 显示SDK列表信息
           command: sdkmanager --list --verbose
