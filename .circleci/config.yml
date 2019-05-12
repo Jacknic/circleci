@@ -8,7 +8,7 @@ references:
     # key: jars-{{ checksum "build.gradle.kts" }}-{{ checksum  "app/build.gradle.kts" }}
     key: jars-{{ checksum "build.gradle.kts" }}
   cache_key_image: &cache_key_image
-    key: image-android-24-armeabi-v7a
+    key: image-android-24-arm-v7a
 jobs:
   build:
     working_directory: ~/code
@@ -39,9 +39,9 @@ jobs:
       - image: circleci/android:api-28-alpha
     steps:
       - restore_cache:
-          <<: *cache_key_jars
-      - restore_cache:
           key: code-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          <<: *cache_key_jars
       - run:
           name: 运行单元测试
           command: ./gradlew test
@@ -56,9 +56,9 @@ jobs:
       # 注意事项：system-images不要选x86或x64的，这需要kvm；选择arm时，启动时要关闭GPU。
     steps:
       - restore_cache:
-          <<: *cache_key_jars
-      - restore_cache:
           key: code-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          <<: *cache_key_jars
       - run:
           name: 显示SDK列表信息
           command: sdkmanager --list --verbose
@@ -68,7 +68,7 @@ jobs:
       - save_cache:
           <<: *cache_key_image
           paths:
-            - $ANDROID_HOME/system-images
+            - /opt/android/sdk/system-images
       - run:
           name: 创建模拟器
           command: echo "no" | avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"  -d "Nexus 5X"
@@ -92,9 +92,9 @@ jobs:
       - image: circleci/android:api-28-alpha
     steps:
       - restore_cache:
-          <<: *cache_key_jars
-      - restore_cache:
           key: code-{{ .Environment.CIRCLE_SHA1 }}
+      - restore_cache:
+          <<: *cache_key_jars
       - run:
           name: 运行编译(debug)
           command: ./gradlew assembleDebug
