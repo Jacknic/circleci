@@ -42,7 +42,10 @@ jobs:
           destination: apk
       - store_test_results:
           path: app/build/test-results
-
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - code
   # Automate GitHub Releases with CircleCI - CircleCI
   #  https://circleci.com/blog/publishing-to-github-releases-via-circleci/
   release-github:
