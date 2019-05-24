@@ -43,9 +43,9 @@ jobs:
       - store_test_results:
           path: app/build/test-results
       - save_cache:
-          key: apk-{{ .Environment.CIRCLE_SHA1 }}
+          key: code-{{ .Environment.CIRCLE_SHA1 }}
           paths:
-            - app/build/outputs/apk/release/
+            - ~/code
 
   # Automate GitHub Releases with CircleCI - CircleCI
   #  https://circleci.com/blog/publishing-to-github-releases-via-circleci/
@@ -56,7 +56,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: apk-{{ .Environment.CIRCLE_SHA1 }}
+          key: code-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           name: "发布到GitHub release"
           command: |
