@@ -48,20 +48,20 @@ jobs:
   release-github:
     docker:
       - image: cibuilds/github:0.10
-      steps:
-        - attach_workspace:
-            at: ./app/build/outputs/apk/
-        - run:
-            name: "发布到GitHub release"
-            command: |
-              VERSION=$(git tag --point-at ${CIRCLE_SHA1})
-              ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./app/build/outputs/apk/
+    steps:
+      - attach_workspace:
+          at: ./app/build/outputs/apk/
+      - run:
+          name: "发布到GitHub release"
+          command: |
+            VERSION=$(git tag --point-at ${CIRCLE_SHA1})
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./app/build/outputs/apk/
 
 workflows:
   version: 2
   main:
     jobs:
-      - build:
+      - build
       - release-github:
           requires:
             - build
