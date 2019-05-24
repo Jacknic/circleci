@@ -46,6 +46,7 @@ jobs:
   # Automate GitHub Releases with CircleCI - CircleCI
   #  https://circleci.com/blog/publishing-to-github-releases-via-circleci/
   release-github:
+    working_directory: ~/code
     docker:
       - image: cibuilds/github:0.10
     steps:
