@@ -42,24 +42,20 @@ jobs:
           destination: apk
       - store_test_results:
           path: app/build/test-results
-      - save_cache:
-          key: code-{{ .Environment.CIRCLE_SHA1 }}
-          paths:
-            - ~/code
 
   # Automate GitHub Releases with CircleCI - CircleCI
   #  https://circleci.com/blog/publishing-to-github-releases-via-circleci/
   release-github:
     working_directory: ~/code
     docker:
-      - image: cibuilds/github:0.10
+      - image: circleci/golang:1.8
     steps:
-      - checkout
-      - restore_cache:
-          key: code-{{ .Environment.CIRCLE_SHA1 }}
+      - attach_workspace:
+          at: ~/code
       - run:
           name: "发布到GitHub release"
           command: |
+            go get github.com/tcnksm/ghr
             VERSION=$(git tag --points-at ${CIRCLE_SHA1})
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./app/build/outputs/apk/release/
 
