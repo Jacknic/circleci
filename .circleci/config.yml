@@ -60,7 +60,7 @@ jobs:
       - run:
           name: "发布到GitHub release"
           command: |
-            VERSION=$(git tag --point-at ${CIRCLE_SHA1})
+            VERSION=$(git tag --points-at ${CIRCLE_SHA1})
             ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./app/build/outputs/apk/release/
 
 workflows:
