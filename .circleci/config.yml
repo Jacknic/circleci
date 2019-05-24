@@ -50,7 +50,7 @@ jobs:
       - image: cibuilds/github:0.10
     steps:
       - attach_workspace:
-          at: ./app/build/outputs/apk/
+          at: ~/code
       - run:
           name: "发布到GitHub release"
           command: |
