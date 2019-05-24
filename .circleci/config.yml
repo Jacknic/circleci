@@ -60,7 +60,7 @@ jobs:
           command: |
             go get github.com/tcnksm/ghr
             VERSION=$(git tag --points-at ${CIRCLE_SHA1})
-            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./app/build/outputs/apk/release/
+            ghr -t ${GITHUB_TOKEN} -u ${CIRCLE_PROJECT_USERNAME} -r ${CIRCLE_PROJECT_REPONAME} -c ${CIRCLE_SHA1} -delete ${VERSION} ./app/build/outputs/apk/release/**.apk
 
 workflows:
   version: 2
