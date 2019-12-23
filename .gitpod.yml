@@ -1,1 +1,2 @@
-image: circleci/android:api-28-alpha
+image:
+  file: .gitpod.Dockerfile
