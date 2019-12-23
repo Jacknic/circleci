@@ -20,6 +20,7 @@ USER gitpod
 
 RUN cd /home/gitpod && wget -qO flutter_sdk.tar.xz https://storage.flutter-io.cn/flutter_infra/releases/stable/linux/flutter_linux_v1.12.13+hotfix.5-stable.tar.xz \
     && tar -xvf flutter_sdk.tar.xz && rm flutter_sdk.tar.xz && \
-    wget -qO android_studio.zip https://dl.google.com/dl/android/studio/ide-zips/3.5.3.0/android-studio-ide-191.6010548-linux.tar.gz && \
-    unzip android_studio.zip && rm -f android_studio.zip && \
-    wget --output-document=android-sdk.tgz --quiet https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip && tar -xvf android-sdk.tgz && rm android-sdk.tgz;
+    wget -qO android_studio.tar.gz https://dl.google.com/dl/android/studio/ide-zips/3.5.3.0/android-studio-ide-191.6010548-linux.tar.gz && \
+    tar -xzvf android_studio.tar.gz && rm -f android_studio.tar.gz && \
+    wget --output-document=android-sdk-tools.zip --quiet https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip && \
+    unzip android-sdk-tools.zip -d $ANDROID_HOME/ && rm android-sdk-tools.zip;
