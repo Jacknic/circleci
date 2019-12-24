@@ -8,7 +8,7 @@ ENV ANDROID_HOME=/home/gitpod/android-sdk-linux \
 USER root
 
 RUN apt-get update && \
-    apt-get --quiet install --yes wget tar unzip lib32stdc++6 lib32z1 && \
+    apt-get --quiet install -y wget tar unzip lib32stdc++6 lib32z1 && \
     apt-get clean && \
     apt-get -y autoremove && \
     apt-get -y clean && \
@@ -18,8 +18,4 @@ USER gitpod
 
 RUN cd /home/gitpod && \
     wget --output-document=${ANDROID_SDK_TOOLS} --quiet https://dl.google.com/android/repository/${ANDROID_SDK_TOOLS} && \
-    unzip -d ${ANDROID_HOME} ${ANDROID_SDK_TOOLS} && rm ${ANDROID_SDK_TOOLS} && \
-    echo y | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-28" && \
-    echo y | $ANDROID_HOME/tools/bin/sdkmanager "platform-tools" && \
-    echo y | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;28.0.3" && \
-    yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses;
+    unzip -d ${ANDROID_HOME} ${ANDROID_SDK_TOOLS} && rm ${ANDROID_SDK_TOOLS};
