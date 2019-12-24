@@ -18,9 +18,8 @@ USER gitpod
 
 RUN cd /home/gitpod && \
     wget --output-document=${ANDROID_SDK_TOOLS} --quiet https://dl.google.com/android/repository/${ANDROID_SDK_TOOLS} && \
-    unzip -d ${ANDROID_HOME} ${ANDROID_SDK_TOOLS} && rm ${ANDROID_SDK_TOOLS};
-
-RUN echo y | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-28" && \
+    unzip -d ${ANDROID_HOME} ${ANDROID_SDK_TOOLS} && rm ${ANDROID_SDK_TOOLS} && \
+    echo y | ${ANDROID_HOME}/tools/bin/sdkmanager "platforms;android-28" && \
     echo y | $ANDROID_HOME/tools/bin/sdkmanager "platform-tools" && \
     echo y | $ANDROID_HOME/tools/bin/sdkmanager "build-tools;28.0.3" && \
     yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses;
